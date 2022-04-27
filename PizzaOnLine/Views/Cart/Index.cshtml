@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Корзина";
+    
+}
+
+<style>
+.button {
+  background-color: green;
+  border: 2px solid green;
+  color: white;
+  padding: 10px 68.5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  margin: 1px 1px;
+  cursor: pointer;
+}
+.button1 {
+  background-color: darkred;
+  border: 2px solid darkred;
+  color: white;
+  padding: 10px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  margin: 1px 1px;
+  cursor: pointer;
+}
+.button2 {
+  background-color: white;
+  border: 2px solid #555555;
+  color: black;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  margin: 1px 1px;
+  cursor: pointer;
+}
+</style>
+
+<h2>Ваша корзина</h2>
+<table width="90%" align="center">
+    <thead>
+        <tr>
+            <th align="center">Количество</th>
+            <th align="left">Наименование</th>
+            <th align="right">Цена</th>
+            <th align="right">Стоимость</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CartLine line in ViewBag.Cart.lineCollection)
+            @foreach (Pizza pizza in ViewBag.Pizzas)
+                @if(pizza.PizzaId == line.PizzaId)
+                {
+                    <tr>
+                        <td align="center">@line.Quantity</td>
+                        <td align="left">@pizza.Name</td>
+                        <td align="right">@pizza.Price.ToString("c")</td>
+                        <td align="right">@((line.Quantity * pizza.Price).ToString("c"))</td>
+                    </tr>
+                }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" align="right">Всего:</td>
+            <td align="right">
+                @ViewBag.Cart.ComputeTotalValue().ToString("c")
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+@using (Html.BeginForm("Save", "Cart"))
+{
+    <button name="button" class="button">Заказать</button>
+}
+
+@using (Html.BeginForm("Clear", "Cart"))
+{
+    <button name="button" class="button1">Очистить корзину</button>
+}
+
+<button name="button" class="button2" onclick="location.href='/Menu'">Продолжить покупки</button>

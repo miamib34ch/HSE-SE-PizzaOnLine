@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Меню";
+}
+
+<style>
+.button {
+  background-color: white;
+  border: 2px solid #555555;
+  color: black;
+  padding: 10px 41px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 1px 1px;
+  cursor: pointer;
+}
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Меню ресторана PizzaOnLine</h1>
+    <p class="display-6">Пицца с пыла и жара.</p>
+</div>
+
+@foreach (Pizza p in ViewBag.Pizzas)
+{ 
+    <div class="row">
+        <div>
+            <h2>@p.Name</h2>
+
+            @{var name = new string(p.Name+".jpg");}
+            <img src="~/images/@name"/>
+
+            <p>@p.Description
+                <br><b>Цена: @p.Price</b>
+                @using (Html.BeginForm("AddToCart", "Cart"))
+                {
+                    @Html.Hidden("productId", p.PizzaId)
+                    <button name="button" class="button">+ Добавить в корзину</button>
+                }
+                </p>   
+        </div>
+    </div>
+}
